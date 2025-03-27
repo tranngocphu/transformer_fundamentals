@@ -43,7 +43,7 @@ class MultiheadAttention(nn.Module):
         assert d_model % h == 0
         self.d_k = d_model // h
         self.h = h
-        self.dropout = dropout
+        self.dropout = nn.Dropout(dropout)
         self.linear_q = nn.Linear(d_model, d_model)
         self.linear_k = nn.Linear(d_model, d_model)
         self.linear_v = nn.Linear(d_model, d_model)
@@ -89,4 +89,17 @@ class MultiheadAttention(nn.Module):
         del value
         
         return self.linear_out(x)
-      
+    
+    
+
+if __name__ == "__main__":
+    batch_size = 4
+    seq_len = 64
+    d_model = 512
+    num_heads = 8
+    mh_attn = MultiheadAttention(num_heads, d_model)    
+    x = torch.randn((batch_size, seq_len, d_model))    
+    y = mh_attn(x, x, x)  
+    assert list(y.shape) == [batch_size, seq_len, d_model], \
+        f"Output shape {y.shape} mismatched! Expected to be of {[batch_size, seq_len, d_model]}"
+    print(y.shape)
