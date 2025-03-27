@@ -13,4 +13,15 @@ class PositionwiseFeedForward(nn.Module):
         x = self.linear_1(x)
         x = self.relu(x)
         x = self.dropout(x)
-        return self.linear_2(x)        
+        return self.linear_2(x)
+    
+
+if __name__ == "__main__"  :
+    from inputs import batch_size, num_heads, seq_len, d_model, d_ff
+    import torch
+    ff_net = PositionwiseFeedForward(d_model, d_ff)
+    x = torch.randn((batch_size, seq_len, d_model))
+    y = ff_net(x)
+    assert list(y.shape) == [batch_size, seq_len, d_model], f"Output size {list(y.shape)} mismatched! Expected to be {[batch_size, seq_len, d_model]}."
+    print(y.shape)
+    
