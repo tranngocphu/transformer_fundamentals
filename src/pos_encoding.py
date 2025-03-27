@@ -26,11 +26,22 @@ class PositionalEncoding(nn.Module):
     
 if __name__ == "__main__":
     from inputs import d_model, x, batch_size, seq_len
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    
     pe_encoder = PositionalEncoding(d_model)
     x_p = pe_encoder(x)
     assert list(x_p.shape) == [batch_size, seq_len, d_model], \
         f"Shape {x_p.shape} mismatched! Expecting {[batch_size, seq_len, d_model]}."
+    print(pe_encoder.pe.shape)
     
-        
-        
-        
+    # plot the positional encoding matrix
+    fig, ax = plt.subplots(figsize=(12, 7))
+    pe = pe_encoder.pe[0].numpy().T
+    sns.heatmap(pe[:,:], ax=ax)
+    ax.set_xlabel('Position')
+    ax.set_ylabel('Embedding')
+    ax.set_title('Positional Encoding for d_model=512 and max_length=5000')
+    plt.tight_layout()
+    fig.savefig('figures/pe.png', dpi=300)
+    
