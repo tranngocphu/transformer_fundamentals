@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import math
 
 
 def attention(query, key, value, mask=None, dropout=None):
@@ -11,7 +12,7 @@ def attention(query, key, value, mask=None, dropout=None):
     # calculate scaled attention scores below:
     #  - resultant shape is [batch_size, seq_len, seq_len]
     #  - where dim 1 represent query, and dim -1 represent key
-    scores = torch.matmul(query, key.transpose(-2, -1)) / torch.sqrt(d_k) 
+    scores = torch.matmul(query, key.transpose(-2, -1)) / math.sqrt(d_k)
     
     # masking
     if mask is not None:
