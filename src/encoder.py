@@ -30,7 +30,7 @@ class Encoder(nn.Module):
     
     
 
-class EncoderLayer(nn.module):
+class EncoderLayer(nn.Module):
     """Encoder is made up of self-attention and feed forward
     """
     def __init__(self, size, self_attn, feed_forward, dropout):
